@@ -1,4 +1,4 @@
-# Spritesheet Fix-inator 🛠️
+# Inconsistent Spritesheet Spacing Fix-inator
 
 **Put an end to the HELL of public spritesheets with inconsistent spacing between frames.**
 
