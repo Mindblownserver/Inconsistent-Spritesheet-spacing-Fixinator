@@ -1,18 +1,30 @@
-# spritesheet_fixinator 🛠️
+# Spritesheet Fix-inator 🛠️
 
 **Put an end to the HELL of public spritesheets with inconsistent spacing between frames.**
 
-If you've ever downloaded a sprite sheet from the internet only to discover the frames are unevenly spaced — some too tight, some too loose, with no discernible grid — you know the pain. `spritesheet_fixinator` automates the misery away.
+*Repo name inspired by certain meme legend*
 
-## What It Does
+<img width="1280" height="720" alt="image" src="https://github.com/user-attachments/assets/9c593254-919e-4798-94f4-1692561b2af3" />
 
-Given a spritesheet with non-transparent frames, the script:
+---
 
-1. **Detects each frame** using ImageMagick's connected-components analysis (finds non-transparent regions)
-2. **Measures every frame** to find the widest one
-3. **Extracts and centers** each frame on a canvas of uniform width
-4. **Adds consistent spacing** between every frame (auto-calculated so the total width is evenly divisible by the frame count)
-5. **Stitches them** into a clean, single-row spritesheet
+If you've ever downloaded a sprite sheet from the internet only to discover the frames are **inconsistently** spaced, you know the pain. `spritesheet_fixinator.sh` saves you from debugging hell. All thanks to `ImageMagick`: a tool that sits within your favourite linux distro (if you use linux) and you never used it, or at least never found a use-case for it...
+
+## Table of Contents
+
+- [How It Works](#how-it-works)
+- [Use Cases](#use-cases)
+- [Requirements](#requirements)
+- [Usage](#usage)
+- [Limitations](#limitations)
+
+## How It Works
+
+1. `magick -connected-components` extracts bounding boxes of all non-transparent regions.
+2. The widest frame determines the uniform canvas width.
+3. A minimal spacing (≥1px) is found such that `(max_width × num_frames) + spacing × (num_frames − 1)` is divisible by `num_frames`. This guarantees even division for sprite-sheet slicing.
+4. Each frame is cropped, centered, and padded to the uniform width.
+5. Frames are concatenated horizontally with `+append`.
 
 The output is a perfectly aligned horizontal spritesheet where every frame has the same width and identical spacing between each neighboring frame.
 
@@ -27,7 +39,7 @@ The output is a perfectly aligned horizontal spritesheet where every frame has t
 ## Requirements
 
 - **ImageMagick** (`magick` command) installed and on your PATH
-- Input spritesheet with **non-transparent frames** on a transparent background (connected-components needs opacity contrast to detect each frame)
+- Input single row spritesheet with frames on a transparent background
 
 ## Usage
 
@@ -44,16 +56,3 @@ The script writes the fixed spritesheet to `output.png`.
 - Frames are **bottom-aligned** (`-gravity South`). If your frames have varying vertical positions, they will sit on a common baseline.
 - The script uses **connected-components sorting** (`sort=X`) which sorts regions from left to right by their centroid. This should handle left-to-right frame order correctly for well-formed spritesheets.
 
-## How It Works (Briefly)
-
-1. `magick -connected-components` extracts bounding boxes of all non-transparent regions.
-2. The widest frame determines the uniform canvas width.
-3. A minimal spacing (≥1px) is found such that `(max_width × num_frames) + spacing × (num_frames − 1)` is divisible by `num_frames`. This guarantees even division for sprite-sheet slicing.
-4. Each frame is cropped, centered, and padded to the uniform width.
-5. Frames are concatenated horizontally with `+append`.
-
-## Example
-
-| Before | After |
-|--------|-------|
-| Unevenly spaced frames, inconsistent widths, unpredictable grid | Single row, uniform frame width, consistent spacing, total width divisible by frame count |
