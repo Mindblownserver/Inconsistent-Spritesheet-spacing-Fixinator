@@ -30,10 +30,7 @@ The output is a perfectly aligned horizontal spritesheet where every frame has t
 
 ## Use Cases
 
-- **Game developers** using free/public asset spritesheets that were slapped together with inconsistent padding
-- **Animation programmers** who need predictable `FRAME_WIDTH` and `FRAME_COUNT` for their sprite-rendering code
-- **Pixel artists** who want to clean up a rough spritesheet without manually cutting and aligning each frame
-- **Tooling pipelines** that require a normalized spritesheet format (single row, uniform spacing, divisible width)
+- **Game developers** who want to slap code with `FRAME_W = SPRITESHEET_W / TOTAL_FRAMES` and move on.
 - **Anyone** who has screamed "just pick a spacing and stick with it" at a PNG file
 
 ## Requirements
